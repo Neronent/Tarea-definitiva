@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include <stdbool.h>
 
 int main(){
@@ -8,12 +9,22 @@ int main(){
     printf("cual es su nombre? ");
     char nombre[256];
     fgets(nombre,256,stdin);
-    printf("%s", nombre);
 
     //preguntando edad
-    printf("cuantos años tienes? ");
     int edad = 0;
-    scanf("%i", &edad);
+    do
+    {
+        printf("cuantos años tienes? ");
+        char temp[256];
+        fgets(temp,256,stdin);
+        edad = atoi(temp);
+
+        if( edad <= 0)
+        {
+            printf("\nLa edad tiene que ser mayor que 0");
+        }
+    } while ( edad <= 0);
+    
 
     // preguntar pelicula
     int sala;
@@ -22,18 +33,22 @@ int main(){
         {"A7","Inception"},
         {"B5","John Wick"}
     };
-    int numPelicula = ( sizeof(nombrePelicula)/2)/256;
-    printf("que pelicula desea ver?\n");
-    for (int i = 0; i < numPelicula; i++)
-    {
-        printf("  Presione %d, para ver %s\n",i + 1, nombrePelicula[i][1]);
-    }
     do
     {
-        scanf("%d", &sala);
+        printf("que pelicula desea ver?\n");
+        int numPelicula = ( sizeof(nombrePelicula)/2)/256;
+        for (int i = 0; i < numPelicula; i++)
+        {
+            printf("  Presione %d, para ver %s\n",i + 1, nombrePelicula[i][1]);
+        }
+
+        char temp[256];
+        fgets(temp,256,stdin);
+        sala = atoi(temp);
+
         if(sala < 1 || sala > 3 )
         {
-            printf("el valor tiene que ser entre 1 y 3 (inclusivo)\n");
+            printf("\nel valor tiene que ser entre 1 y 3 (inclusivo)\n");
         }
 
     } while (sala < 1 || sala > 3);
@@ -49,44 +64,57 @@ int main(){
         "Sabado",
         "Domingo"
     };
-    printf(
-        "Que dia es hoy? \n"
-        "  Presione 1, para Lunes\n"
-        "  Presione 2, para Martes\n"
-        "  Presione 3, para Miercoles\n"
-        "  Presione 4, para Jueves\n"
-        "  Presione 5, para Viernes\n"
-        "  Presione 6, para Sabado\n"
-        "  Presione 7, para Domingo\n"
-    );
+
     do
     {
-        scanf("%d", &dia);
+        printf(
+            "Que dia es hoy? \n"
+            "  Presione 1, para Lunes\n"
+            "  Presione 2, para Martes\n"
+            "  Presione 3, para Miercoles\n"
+            "  Presione 4, para Jueves\n"
+            "  Presione 5, para Viernes\n"
+            "  Presione 6, para Sabado\n"
+            "  Presione 7, para Domingo\n"
+        );
+        
+        
+        char temp[256];
+        fgets(temp,256,stdin);
+        dia = atoi(temp);
+
         if(dia < 1 || dia > 7 )
         {
-            printf("el valor tiene que ser entre 1 y 7 (inclusivo)\n");
+            printf("\nEl valor tiene que ser entre 1 y 7 (inclusivo)\n");
         }
 
     } while (dia < 1 || dia > 7);
     dia--;
     //preguntando si es estudiante
     bool esEstudiante;
-    printf(
-        "usted estudia? \n"
-        "  Presione 1, si lo es\n"
-        "  Presione 0, si no lo es\n"
-    );
     do
     {
-        int temp;
-        scanf("%d", &temp);
-        esEstudiante = temp;
-        if(esEstudiante !=0 && esEstudiante != 1)
-        {
-            printf("el valor tiene que ser 1 o 0\n");
-        }
+    printf(
+        "usted estudia? \n"
+        "  Presione y, si lo es\n"
+        "  Presione n, si no lo es\n"
+    );
+        char temp[256];
+        fgets(temp,256,stdin);
 
-    } while (esEstudiante !=0 && esEstudiante != 1);
+        if (strcmp(temp ,"n\n") == 0) 
+        {   
+            esEstudiante = false;
+            break;
+        }
+        else if (strcmp( temp,"y\n") == 0) 
+        {   
+            esEstudiante = true;
+            break;
+        }
+        printf("\n El valor tiene que ser y o n\n");
+
+    } while (true);
 
     //Calculando Descuento
     int descuento[3] = {35,15,95};
@@ -118,7 +146,7 @@ int main(){
     // retornando segun dia
     if (dia == 0)
     { 
-        printf("su nombre es: %s", nombre);
+        printf("\n\nSu nombre es: %s", nombre);
         printf("La pelicula que escogio es %s, y se esta exhibiendo en la sala %s\n", nombrePelicula[sala][1],nombrePelicula[sala][0]);
         printf("El dia de hoy es %s\n", nombreDia[dia]);
         printf("Por ser un cliente %s:\n",tipoCliente);
@@ -126,7 +154,7 @@ int main(){
         printf("  Lo que le dejaria su factura final en %f\n", precio * ((100 - descuento[tipoDeDescuento])/100.00));
         return 0;      
     }
-     printf("Su nombre es: %s", nombre);
+     printf("\n\nSu nombre es: %s", nombre);
         printf("La pelicula que escogio es %s, y se esta exhibiendo en la sala %s\n", nombrePelicula[sala][1],nombrePelicula[sala][0]);
         printf("El dia de hoy es %s\n", nombreDia[dia]);
         printf("Usted es un cliente %s:\n",tipoCliente);
